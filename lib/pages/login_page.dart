@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void dispose() {
+  void dispose() { //
     _userCtrl.dispose();
     _passCtrl.dispose();
     super.dispose();
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                         showDialog(context: context, builder: (_) =>
                           AlertDialog(
                             title: Text('Recuperar contraseña'),
-                            content: Text('Funcionalidad demo: usa admin / 1234'),
+                            content: Text('Recuerda usar: admin / 1234'),
                             actions: [TextButton(onPressed: ()=>Navigator.pop(context), child: Text('OK'))],
                           )
                         );

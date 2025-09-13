@@ -37,7 +37,7 @@ class ProductsPage extends StatelessWidget {
             crossAxisSpacing: 12,
             childAspectRatio: 0.66,
           ),
-          itemBuilder: (ctx, i) {
+          itemBuilder: (ctx, i) { //Tarjetas de productos
             final p = demoProducts[i];
             return ProductCard(
               product: p,
