@@ -12,5 +12,5 @@ class AppColors {
   );
 
   static const Color darkBg = Color(0xFF4A4A4A);
-  static const Color accent = Color(0xFF2E7D32);
+
 }
