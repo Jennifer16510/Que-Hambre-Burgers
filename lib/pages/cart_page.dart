@@ -8,24 +8,24 @@ class CartPage extends StatelessWidget {
     final cart = context.watch<CartProvider>();
     final items = cart.items.values.toList();
 
-    return Scaffold(
+    return Scaffold( //título "Carrito" y tambien uso color verde oscuro
       appBar: AppBar(title: Text('Carrito'), backgroundColor: Colors.green[800]),
       body: Padding(
         padding: EdgeInsets.all(12),
-        child: items.isEmpty
+        child: items.isEmpty  //Si no hay productos, se muestra un mensaje centrado
             ? Center(child: Text('Tu carrito está vacío'))
-            : Column(
+            : Column( // cuando hay productos 
                 children: [
                   Expanded(
-                    child: ListView.builder(
+                    child: ListView.builder( //genera  la lista de productos en el carrito.
                       itemCount: items.length,
                       itemBuilder: (_, i) {
                         final ci = items[i];
-                        return Card(
+                        return Card( // muestra los producto en una tarjeta
                           child: ListTile(
-                            leading: Image.asset(ci.product.image, width: 56, fit: BoxFit.cover),
-                            title: Text(ci.product.name),
-                            subtitle: Text('Cantidad: ${ci.quantity}'),
+                            leading: Image.asset(ci.product.image, width: 56, fit: BoxFit.cover), // imagen de los productos
+                            title: Text(ci.product.name), // nombre del producto
+                            subtitle: Text('Cantidad: ${ci.quantity}'), //cantidad del carrito
                             trailing: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -34,8 +34,8 @@ class CartPage extends StatelessWidget {
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    IconButton(icon: Icon(Icons.remove_circle_outline), onPressed: () => cart.removeSingle(ci.product.id)),
-                                    IconButton(icon: Icon(Icons.delete_outline), onPressed: () => cart.removeProduct(ci.product.id)),
+                                    IconButton(icon: Icon(Icons.remove_circle_outline), onPressed: () => cart.removeSingle(ci.product.id)),// quita una unidad
+                                    IconButton(icon: Icon(Icons.delete_outline), onPressed: () => cart.removeProduct(ci.product.id)), //elimina por completo
                                   ],
                                 ),
                               ],
@@ -46,7 +46,7 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   Divider(),
-                  Padding(
+                  Padding( // diseño y total de los productos 
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +56,7 @@ class CartPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  SizedBox(  // "Finalizar compra"
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
@@ -73,7 +73,7 @@ class CartPage extends StatelessWidget {
                                   cart.clear();
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Compra realizada. Gracias!')));
-                                  Navigator.of(context).pop(); // volver atrás
+                                  Navigator.of(context).pop(); // vuelve a la pantalla anterior
                                 },
                                 child: Text('Confirmar'),
                               )

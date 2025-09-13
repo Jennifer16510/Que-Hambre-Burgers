@@ -5,9 +5,9 @@ class AppColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFBFF00A), // verde claro
-      Color(0xFFFFC857), // amarillo/naranja
-      Color(0xFFFF7A5A), // naranja oscuro
+      Color(0xFFBFF00A), // 
+      Color(0xFFFFC857), 
+      Color(0xFFFF7A5A), 
     ],
   );
 
