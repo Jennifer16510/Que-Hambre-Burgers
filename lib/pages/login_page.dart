@@ -1,7 +1,6 @@
-// ignore_for_file: deprecated_member_use, use_key_in_widget_constructors, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import '../design/app_colors.dart';
+import '../services/auth_service.dart'; // 🔹 nuevo servicio
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,24 +12,27 @@ class _LoginPageState extends State<LoginPage> {
   final _passCtrl = TextEditingController();
   final _confirmPassCtrl = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool _loading = false;
-  bool _isLogin = true; // 👈 Toggle entre login y registro
 
-  // Credenciales dummy
-  final String goodUser = 'admin';
-  final String goodPass = '1234';
+  bool _loading = false;
+  bool _isLogin = true; // Toggle entre login y registro
+
+  final AuthService _authService = AuthService(); // 🔹 instancia del servicio
 
   void _login() async {
     if (!_formKey.currentState!.validate()) return;
+
     setState(() => _loading = true);
     await Future.delayed(Duration(milliseconds: 700));
     setState(() => _loading = false);
 
-    if (_userCtrl.text == goodUser && _passCtrl.text == goodPass) {
+    final success =
+        _authService.login(_userCtrl.text.trim(), _passCtrl.text.trim());
+
+    if (success) {
       Navigator.of(context).pushReplacementNamed('/home');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Credenciales inválidas. Usa admin / 1234')),
+        SnackBar(content: Text('Credenciales inválidas ❌')),
       );
     }
   }
@@ -48,12 +50,21 @@ class _LoginPageState extends State<LoginPage> {
     await Future.delayed(Duration(milliseconds: 700));
     setState(() => _loading = false);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Usuario registrado con éxito ✅')),
+    final success = _authService.register(
+      _userCtrl.text.trim(),
+      _passCtrl.text.trim(),
     );
 
-    // Después de registrar, vuelve al login
-    setState(() => _isLogin = true);
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Usuario registrado con éxito ✅')),
+      );
+      setState(() => _isLogin = true); // vuelve al login
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('El usuario ya existe ⚠️')),
+      );
+    }
   }
 
   @override
@@ -131,17 +142,19 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextButton(
                         onPressed: () {
                           showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                    title: Text('Recuperar contraseña'),
-                                    content: Text('Recuerda usar: admin / 1234'),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text('OK'))
-                                    ],
-                                  ));
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text('Recuperar contraseña'),
+                              content: Text(
+                                  'Lo sentimos, aún no está implementado 😅'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                         child: Center(
                           child: Text(
@@ -156,21 +169,18 @@ class _LoginPageState extends State<LoginPage> {
 
                   // ======= BOTÓN =======
                   ElevatedButton(
-                    onPressed: _loading
-                        ? null
-                        : _isLogin
-                            ? _login
-                            : _register,
+                    onPressed:
+                        _loading ? null : _isLogin ? _login : _register,
                     style: ElevatedButton.styleFrom(
                       padding:
                           EdgeInsets.symmetric(horizontal: 60, vertical: 14),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                       backgroundColor: Color.fromARGB(255, 57, 128, 209),
                     ),
                     child: _loading
-                        ? CircularProgressIndicator(
-                            color: const Color.fromARGB(255, 255, 254, 254))
+                        ? CircularProgressIndicator(color: Colors.white)
                         : Text(
                             _isLogin ? 'Login' : 'Registrar',
                             style: TextStyle(
