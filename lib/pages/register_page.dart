@@ -12,7 +12,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
 
-  // 🔹 Instancia del AuthService
+  // Instancia del AuthService
   final AuthService _authService = AuthService();
 
   void _register() async {
@@ -20,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     setState(() => _loading = true);
 
-    bool success = _authService.register(
+    bool success = await _authService.register(
       _userCtrl.text.trim(),
       _passCtrl.text.trim(),
     );
@@ -42,32 +42,33 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Registrar")),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _userCtrl,
-              decoration: InputDecoration(labelText: "Usuario"),
-              validator: (val) =>
-                  val!.isEmpty ? "Ingrese un usuario" : null,
-            ),
-            TextFormField(
-              controller: _passCtrl,
-              obscureText: true,
-              decoration: InputDecoration(labelText: "Contraseña"),
-              validator: (val) =>
-                  val!.isEmpty ? "Ingrese una contraseña" : null,
-            ),
-            SizedBox(height: 20),
-            _loading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _register,
-                    child: Text("Registrar"),
-                  ),
-          ],
+      appBar: AppBar(title: Text("Registro")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _userCtrl,
+                decoration: InputDecoration(labelText: "Usuario"),
+                validator: (value) =>
+                    value!.isEmpty ? "Ingrese un usuario" : null,
+              ),
+              TextFormField(
+                controller: _passCtrl,
+                obscureText: true,
+                decoration: InputDecoration(labelText: "Contraseña"),
+                validator: (value) =>
+                    value!.isEmpty ? "Ingrese una contraseña" : null,
+              ),
+              SizedBox(height: 20),
+              _loading
+                  ? CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: _register, child: Text("Registrar")),
+            ],
+          ),
         ),
       ),
     );
