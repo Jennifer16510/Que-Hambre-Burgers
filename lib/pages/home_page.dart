@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../design/app_colors.dart';
+import '../design/themedata.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 
@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
     final cart = context.watch<CartProvider>();
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(gradient: AppColors.mainGradient),
+        decoration: BoxDecoration(gradient: ThemeColors.mainGradient),
         child: SafeArea(
           child: Column(
             children: [

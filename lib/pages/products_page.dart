@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../widgets/product_card.dart';
-import '../design/app_colors.dart';
+import '../design/themedata.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 
@@ -20,13 +20,13 @@ class ProductsPage extends StatelessWidget {
     final cart = Provider.of<CartProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.darkBg,
+        backgroundColor: ThemeColors.darkBg,
         title: Text('Nuestros Productos'),
         actions: [
           IconButton(icon: Icon(Icons.shopping_cart), onPressed: () => Navigator.of(context).pushNamed('/cart'))
         ],
       ),
-      backgroundColor: AppColors.darkBg,
+      backgroundColor: ThemeColors.darkBg,
       body: Padding(
         padding: EdgeInsets.all(12),
         child: GridView.builder(
