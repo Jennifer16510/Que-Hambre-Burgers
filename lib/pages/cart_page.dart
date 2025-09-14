@@ -4,6 +4,7 @@ import '../providers/cart_provider.dart';
 import '../design/themedata.dart'; // 🎨 Importar tu paleta
 
 class CartPage extends StatelessWidget {
+  const CartPage ({super.key});
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();

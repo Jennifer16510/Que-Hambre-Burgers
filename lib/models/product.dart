@@ -1,11 +1,13 @@
 class Product {
+
+
   final String id;
   final String name;
   final String description;
   final String image;
   final double price;
 
-  Product({
+  const Product({
     required this.id,
     required this.name,
     required this.description,
@@ -13,3 +15,4 @@ class Product {
     required this.price,
   });
 }
+
